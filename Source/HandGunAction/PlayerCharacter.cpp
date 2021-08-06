@@ -27,8 +27,6 @@ APlayerCharacter::APlayerCharacter()
 		Camera->SetupAttachment(SpringArm, USpringArmComponent::SocketName);
 
 		AutoPossessPlayer = EAutoReceiveInput::Player0;
-
-
 }
 
 // Called when the game starts or when spawned
@@ -52,10 +50,14 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 	InputComponent->BindAxis("MoveForward", this, &APlayerCharacter::MoveForward);
 	InputComponent->BindAxis("MoveRight", this, &APlayerCharacter::MoveRight);
-	
+	// InputComponent->BindAxis("LookUp", this, &APlayerCharacter::AddControllerYawInput);
+	InputComponent->BindAxis("Turn", this, &APlayerCharacter::AddControllerPitchInput);
+
 	InputComponent->BindAction("Jump", IE_Pressed, this, &APlayerCharacter::JumpStart);
 	InputComponent->BindAction("Jump", IE_Released, this, &APlayerCharacter::JumpStop);
 
+	InputComponent->BindAction("Dash", IE_Pressed, this, &APlayerCharacter::DashMoveStart);
+	InputComponent->BindAction("Dash", IE_Released, this, &APlayerCharacter::DashMoveStop);
 }
 
 void APlayerCharacter::MoveForward(float AxisValue)
@@ -68,6 +70,18 @@ void APlayerCharacter::MoveRight(float AxisValue)
 {
 	FVector Direction = FRotationMatrix(Controller->GetControlRotation()).GetScaledAxis(EAxis::Y);
 	AddMovementInput(Direction, AxisValue);
+}
+
+void APlayerCharacter::DashMoveStart()
+{
+	MovementComponent = CreateDefaultSubobject<UCharacterMovementComponent>(TEXT("CharacterMovement"));
+	MovementComponent->MaxWalkSpeed = 220.0f;
+}
+
+void APlayerCharacter::DashMoveStop()
+{
+	MovementComponent = CreateDefaultSubobject<UCharacterMovementComponent>(TEXT("CharacterMovement"));
+	MovementComponent->MaxWalkSpeed = 0.0f;
 }
 
 void APlayerCharacter::JumpStart()

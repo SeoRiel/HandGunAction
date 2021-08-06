@@ -30,22 +30,28 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	UFUNCTION()
-		void MoveForward(float AxisValue);
+	void MoveForward(float AxisValue);
 
 	UFUNCTION()
-		void MoveRight(float AxisValue);
+	void MoveRight(float AxisValue);
 
 	UFUNCTION()
-		void JumpStart();
+	void DashMoveStart();
+	
+	UFUNCTION()
+	void DashMoveStop();
 
 	UFUNCTION()
-		void JumpStop();
+	void JumpStart();
 
 	UFUNCTION()
-		void Attack();
+	void JumpStop();
 
 	UFUNCTION()
-		void Dodge();
+	void Attack();
+
+	UFUNCTION()
+	void Dodge();
 
 public:
 	UPROPERTY()
@@ -53,5 +59,8 @@ public:
 
 	UPROPERTY()
 	UCameraComponent* Camera;
+
+	UPROPERTY()
+	UCharacterMovementComponent* MovementComponent;
 
 };
