@@ -26,6 +26,8 @@ APlayerCharacter::APlayerCharacter()
 		Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("AcutalCamera"));
 		Camera->SetupAttachment(SpringArm, USpringArmComponent::SocketName);
 
+		MovementComponent = CreateDefaultSubobject<UCharacterMovementComponent>(TEXT("CharacterMovement"));
+
 		AutoPossessPlayer = EAutoReceiveInput::Player0;
 }
 
@@ -74,13 +76,11 @@ void APlayerCharacter::MoveRight(float AxisValue)
 
 void APlayerCharacter::DashMoveStart()
 {
-	MovementComponent = CreateDefaultSubobject<UCharacterMovementComponent>(TEXT("CharacterMovement"));
 	MovementComponent->MaxWalkSpeed = 220.0f;
 }
 
 void APlayerCharacter::DashMoveStop()
 {
-	MovementComponent = CreateDefaultSubobject<UCharacterMovementComponent>(TEXT("CharacterMovement"));
 	MovementComponent->MaxWalkSpeed = 0.0f;
 }
 
